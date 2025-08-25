@@ -36,15 +36,12 @@ export default function CameraPage() {
       />
 
       {/* Floating Hamburger Button (tengah bawah) */}
-      {!menuOpen && (
-        <Button
-          onClick={() => setMenuOpen(true)}
-          className="fixed top-4 left-4 rounded-full p-4 shadow-lg cursor-pointer"
-          size="icon"
-        >
-          <Menu className="h-7 w-7" />
-        </Button>
-      )}
+      <Button
+        onClick={() => setMenuOpen((prev) => !prev)}
+        className="fixed bottom-5 left-5 py-5 rounded-full px-4 shadow-lg cursor-pointer"
+      >
+        {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </Button>
 
       {/* Slide-in Menu */}
       <AnimatePresence>
@@ -54,28 +51,48 @@ export default function CameraPage() {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 w-1/4 h-full bg-white shadow-2xl p-6 flex flex-col gap-4"
+            className="fixed bottom-20 left-5 bg-slate-950 shadow-2xl rounded-lg px-6 pb-2 pt-6 flex flex-col gap-4"
           >
+            
             {/* Tombol Close */}
-            <Button
+            {/* <Button
               onClick={() => setMenuOpen(false)}
               variant="ghost"
-              className="absolute top-7 right-4 cursor-pointer"
+              className="cursor-pointer hover:bg-transparent"
               size="icon"
             >
-              <X className="size-6" />
-            </Button>
+              <X className="size-6 text-slate-300" />
+            </Button> */}
 
-            <h2 className="text-4xl text-center font-extrabold mb-4">Menu</h2>
-            <div className="flex flex-col justify-evenly gap-x-4 h-full">
-              <Button variant="outline" className="w-full h-48 cursor-pointer">
-                📷 Absen
+            {/* <h2 className="text-4xl text-center font-extrabold mb-4">Menu</h2> */}
+            <div className="grid grid-cols-4 gap-x-3 h-full mb-4">
+              <Button
+                variant="outline"
+                className="w-36 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col cursor-pointer"
+              >
+                <p>🫴💻</p>
+                <p>Ambil Laptop</p>
               </Button>
-              <Button variant="outline" className="w-full h-48 cursor-pointer">
-                📒 Logbook
+              <Button
+                variant="outline"
+                className="w-36 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col cursor-pointer"
+              >
+                <p>🫴📱</p>
+                <p>Ambil Hp</p>
               </Button>
-              <Button variant="outline" className="w-full h-48 cursor-pointer">
-                ⚙️ Dashboard
+              <Button
+                variant="outline"
+                className="w-36 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col cursor-pointer"
+              >
+                <p>🔁💻</p>
+                <p>Kembalikan Laptop</p>
+              </Button>
+              <Button
+                variant="outline"
+                className="w-36 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col cursor-pointer"
+              >
+                <p>🔁📱</p>
+                <p>Kembalikan Hp</p>
               </Button>
             </div>
           </motion.div>
