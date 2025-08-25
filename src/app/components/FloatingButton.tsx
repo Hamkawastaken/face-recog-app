@@ -3,10 +3,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function FloatingButton() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname()
 
+  const menus = [
+    { href: "/ambil-laptop", emot: "🫴💻", label: "Ambil Laptop" },
+    { href: "/ambil-hp", emot: "🫴📱", label: "Ambil HP" },
+    { href: "/kembali-laptop", emot: "🔁💻", label: "Kembalikan Laptop" },
+    { href: "/kembali-hp", emot: "🔁📱", label: "Kembalikan HP" },
+  ];
   return (
     <>
       Floating Hamburger Button (tengah bawah)
@@ -28,34 +36,18 @@ export default function FloatingButton() {
           >
             {/* <h2 className="text-4xl text-center font-extrabold mb-4">Menu</h2> */}
             <div className="grid grid-cols-2 gap-3 h-full mb-4">
-              <Link
-                href={"/ambil-laptop"}
-                className="w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col justify-center items-center rounded-lg cursor-pointer"
-              >
-                <p>🫴💻</p>
-                <p>Ambil Laptop</p>
-              </Link>
-              <Link
-                href={"/ambil-hp"}
-                className="w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col justify-center items-center rounded-lg cursor-pointer"
-              >
-                <p>🫴📱</p>
-                <p>Ambil Hp</p>
-              </Link>
-              <Link
-                href={"/kembali-laptop"}
-                className="w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col justify-center items-center rounded-lg cursor-pointer"
-              >
-                <p>🔁💻</p>
-                <p>Kembalikan Laptop</p>
-              </Link>
-              <Link
-                href={"/kembali-hp"}
-                className="w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border border-slate-700 hover:bg-slate-900 flex flex-col justify-center items-center rounded-lg cursor-pointer"
-              >
-                <p>🫴📱</p>
-                <p>Kembalikan Hp</p>
-              </Link>
+              {menus.map((menu) => {
+                return (
+                  <Link
+                    key={menu.href}
+                    href={menu.href}
+                    className={`w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border flex flex-col justify-center items-center rounded-lg cursor-pointer ${pathname === menu.href ? 'border-cyan-500 border-2 bg-slate-200' : 'border-slate-700 hover:bg-slate-900'}`}
+                  >
+                    <p>{menu.emot}</p>
+                    <p>{menu.label}</p>
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         )}
