@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import FloatingButton from "./FloatingButton";
 
 export default function CameraComponent() {
@@ -34,6 +34,13 @@ export default function CameraComponent() {
     setIsActive(false);
   };
 
+  // ✅ Matikan kamera otomatis kalau keluar dari halaman
+  useEffect(() => {
+    return () => {
+      stopCamera();
+    };
+  }, []);
+
   return (
     <div className="relative w-screen h-screen flex flex-col items-center gap-4">
       <video
@@ -58,9 +65,9 @@ export default function CameraComponent() {
         >
           Stop
         </button>
-
       </div>
-        <FloatingButton />
+
+      <FloatingButton />
     </div>
   );
 }
