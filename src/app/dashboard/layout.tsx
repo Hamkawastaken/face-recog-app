@@ -33,7 +33,7 @@ export default function DashboardLayout({
               <Link key={n.label} href={n.href}>
                 <Button
                   variant={active ? "secondary" : "ghost"}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 cursor-pointer"
                 >
                   <n.icon className="h-4 w-4" />
                   {n.label}
