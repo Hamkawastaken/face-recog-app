@@ -1,11 +1,5 @@
-import Camera from "./components/Camera";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <>
-      <main className="w-full items-center">
-        <Camera />
-      </main>
-    </>
-  );
+  redirect("/dashboard");
 }
