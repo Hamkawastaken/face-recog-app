@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import FloatingButton from "./FloatingButton";
+import BackButton from "./BackButton";
 
 export default function CameraComponent() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -66,6 +67,8 @@ export default function CameraComponent() {
           Stop
         </button>
       </div>
+
+      <BackButton />
 
       <FloatingButton />
     </div>
