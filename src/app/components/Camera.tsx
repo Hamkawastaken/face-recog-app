@@ -1,38 +1,66 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import FloatingButton from "./FloatingButton";
 
-export default function CameraPage() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+export default function CameraComponent() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    const enableCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        console.error("Camera error:", err);
+  // Start kamera
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
       }
-    };
-    enableCamera();
-  }, []);
+      streamRef.current = stream;
+      setIsActive(true);
+    } catch (err) {
+      console.error("Gagal akses kamera:", err);
+    }
+  };
+
+  // Stop kamera
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+    setIsActive(false);
+  };
 
   return (
-    <div className="relative w-screen h-screen bg-black overflow-hidden">
-      {/* Kamera full screen */}
+    <div className="relative w-screen h-screen flex flex-col items-center gap-4">
       <video
         ref={videoRef}
         autoPlay
         playsInline
-        className="w-full h-full object-cover"
-      />
+        className="absolute w-full h-full object-cover bg-black"
+      ></video>
 
-      <FloatingButton />
+      <div className="absolute bottom-8 flex gap-4">
+        <button
+          onClick={startCamera}
+          disabled={isActive}
+          className="px-4 py-2 bg-green-500 text-white rounded-lg disabled:opacity-50"
+        >
+          Start
+        </button>
+        <button
+          onClick={stopCamera}
+          disabled={!isActive}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:opacity-50"
+        >
+          Stop
+        </button>
+
+      </div>
+        <FloatingButton />
     </div>
   );
 }

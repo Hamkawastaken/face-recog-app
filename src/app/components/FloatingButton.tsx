@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 export default function FloatingButton() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const menus = [
     { href: "/ambil-laptop", emot: "🫴💻", label: "Ambil Laptop" },
@@ -17,7 +17,6 @@ export default function FloatingButton() {
   ];
   return (
     <>
-      Floating Hamburger Button (tengah bawah)
       <Button
         onClick={() => setMenuOpen((prev) => !prev)}
         className="fixed bottom-5 left-5 py-5 rounded-full px-4 shadow-lg cursor-pointer"
@@ -41,7 +40,11 @@ export default function FloatingButton() {
                   <Link
                     key={menu.href}
                     href={menu.href}
-                    className={`w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border flex flex-col justify-center items-center rounded-lg cursor-pointer ${pathname === menu.href ? 'border-cyan-500 border-2 bg-slate-200' : 'border-slate-700 hover:bg-slate-900'}`}
+                    className={`w-44 h-32 bg-slate-800 text-slate-300 hover:text-slate-300 border flex flex-col justify-center items-center rounded-lg cursor-pointer ${
+                      pathname === menu.href
+                        ? "border-cyan-500 border-2 bg-slate-200"
+                        : "border-slate-700 hover:bg-slate-900"
+                    }`}
                   >
                     <p>{menu.emot}</p>
                     <p>{menu.label}</p>
