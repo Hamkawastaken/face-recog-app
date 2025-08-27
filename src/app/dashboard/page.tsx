@@ -1,79 +1,115 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import {
-  CornerDownLeft,
-  CornerUpRight,
-  Laptop,
-  Smartphone,
-} from "lucide-react";
-import Link from "next/link";
+import { useState } from "react";
+import { Users, Activity, Laptop, Home, Menu, X } from "lucide-react";
+import DashboardContent from "@/components/DashboardPage";
+import AbsensiContent from "@/components/AbsensiContent";
+import SantriContent from "@/components/SantriContent";
+import RiwayatContent from "@/components/RiwayatContent";
 
-const actions = [
-  {
-    title: "Ambil Laptop",
-    icon: Laptop,
-    color: "text-blue-500",
-    url: "/ambil-laptop",
-  },
-  {
-    title: "Ambil HP",
-    icon: Smartphone,
-    color: "text-green-500",
-    url: "/ambil-hp",
-  },
-  {
-    title: "Kembali Laptop",
-    icon: CornerUpRight,
-    color: "text-purple-500",
-    url: "/kembali-laptop",
-  },
-  {
-    title: "Kembali HP",
-    icon: CornerDownLeft,
-    color: "text-orange-500",
-    url: "/kembali-laptop",
-  },
-];
+export default function PondokAbsensiDashboard() {
+  const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-export default function DashboardPage() {
+  const menuItems = [
+    { id: "dashboard", label: "Dashboard", icon: Home },
+    { id: "absensi", label: "Absensi Perangkat", icon: Laptop },
+    { id: "santri", label: "Data Santri", icon: Users },
+    { id: "riwayat", label: "Riwayat Peminjaman", icon: Activity },
+  ];
+
+  const renderContent = () => {
+    switch (activeMenu) {
+      case "dashboard":
+        return <DashboardContent />;
+      case "absensi":
+        return <AbsensiContent />;
+      case "santri":
+        return <SantriContent />;
+      case "riwayat":
+        return <RiwayatContent />;
+      default:
+        return <DashboardContent />;
+    }
+  };
+
   return (
-    <Card>
-      <CardContent>
-        <div className="space-y-6">
-          {/* Ucapan Selamat Datang */}
-          <h1 className="text-2xl font-bold">Selamat Datang 👋</h1>
-          <p className="text-slate-600">
-            Aplikasi Absensi Pengambilan & Pengembalian HP/Laptop
-          </p>
-
-          {/* Grid Card */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {actions.map((a) => {
-              const Icon = a.icon;
-              return (
-                <Card
-                  key={a.title}
-                  className="shadow hover:shadow-md transition"
-                >
-                  <CardHeader className="flex flex-col gap-y-8 items-center justify-between">
-                    <CardTitle className="text-xl font-bold">
-                      {a.title}
-                    </CardTitle>
-                    <Icon className={`w-24 h-24 ${a.color}`} />
-                  </CardHeader>
-                  <CardContent>
-                    <Link href={a.url}>
-                      <Button className="w-full cursor-pointer">Mulai</Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              );
-            })}
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Sidebar */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white-800 text-black border border-slate-200 shadow-lg transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}
+      >
+        <div className="flex border items-center justify-between h-16 px-6 bg-white-900">
+          <div>
+            <h1 className="text-lg font-bold">Absensi Perangkat</h1>
+            <p className="text-xs text-black">Pondok Pesantren</p>
           </div>
+          <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
+            <X size={24} />
+          </button>
         </div>
-      </CardContent>
-    </Card>
+
+        <nav className="mt-8">
+          {menuItems.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveMenu(item.id);
+                  setIsSidebarOpen(false);
+                }}
+                className={`w-full flex items-center px-6 py-3 text-left hover:bg-slate-300 transition-colors ${
+                  activeMenu === item.id
+                    ? "bg-slate-200 border-r-4 border-slate-400"
+                    : ""
+                }`}
+              >
+                <IconComponent className="mr-3" size={20} />
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 lg:ml-0">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="flex items-center justify-between h-16 px-6">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="lg:hidden"
+            >
+              <Menu size={24} />
+            </button>
+            <h2 className="text-xl font-semibold text-gray-800 capitalize">
+              {menuItems.find((item) => item.id === activeMenu)?.label ||
+                "Dashboard"}
+            </h2>
+            <div className="flex items-center space-x-4">
+              <div className="text-sm text-gray-600">Admin Pondok</div>
+              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                A
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Content */}
+        <main className="p-6">{renderContent()}</main>
+      </div>
+    </div>
   );
 }

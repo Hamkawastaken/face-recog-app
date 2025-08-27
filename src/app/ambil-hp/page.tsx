@@ -1,4 +1,4 @@
-import CameraPage from "../components/Camera";
+import CameraPage from "../../components/Camera";
 
 export default function AmbilHpPage() {
   return (
