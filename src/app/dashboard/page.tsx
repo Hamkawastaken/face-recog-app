@@ -37,7 +37,7 @@ export default function PondokAbsensiDashboard() {
     <div className="min-h-screen bg-gray-100 flex">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white-800 text-black border border-slate-200 shadow-lg transform ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-50 text-black shadow-lg transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}
       >
@@ -61,9 +61,9 @@ export default function PondokAbsensiDashboard() {
                   setActiveMenu(item.id);
                   setIsSidebarOpen(false);
                 }}
-                className={`w-full flex items-center px-6 py-3 text-left hover:bg-slate-300 transition-colors ${
+                className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-200 transition-colors ${
                   activeMenu === item.id
-                    ? "bg-slate-200 border-r-4 border-slate-400"
+                    ? "bg-gray-200 border-r-4 border-gray-300"
                     : ""
                 }`}
               >
